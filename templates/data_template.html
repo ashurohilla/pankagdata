@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Retrieval and Posting Example</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Data Retrieval and Posting Example</h1>
+    <div id="data-container">
+        <!-- Data will be displayed here -->
+    </div>
+
+    <h2>Post Data</h2>
+    <form id="post-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            // Function to handle the form submission
+            $('#post-form').submit(function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Get the form data
+                var formData = {
+                    'name': $('#name').val(),
+                    'email': $('#email').val()
+                };
+
+                // Send the POST request to the backend
+                $.ajax({
+                    url: '/api/data/',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        console.log('Data posted successfully!');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(errmsg);
+                    }
+                });
+            });
+
+            // Retrieve data on document load
+            $.ajax({
+                url: '/api/data/',
+                method: 'GET',
+                success: function(response) {
+                    // Handle the API response
+                    var data = response;
+
+                    // Render the data in the template
+                    var container = $('#data-container');
+                    // Manipulate the container to display the data as needed
+                    container.html('<pre>' + JSON.stringify(data, null, 4) + '</pre>');
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(errmsg);
+                }
+            });
+        });
+    </script>
+
+
+
+
+    
+</body>
+</html>

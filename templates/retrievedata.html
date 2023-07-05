@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Retrieval and Posting Example</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Data Retrieval and Posting Example</h1>
+    <div id="data-container">
+        <!-- Data will be displayed here -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Retrieve data on document load
+            $.ajax({
+                url: 'http://127.0.0.1:8001/api/crm',
+                method: 'GET',
+                success: function(response) {
+                    // Handle the API response
+                    var data = response;
+    
+                    // Render the data in the table
+                    var table = $('#data-table');
+                    var tbody = table.find('tbody');
+    
+                    // Iterate over the data and create table rows
+                    $.each(data, function(index, item) {
+                        var row = '<tr>' +
+                            '<td>' + item.id + '</td>' +
+                            '<td>' + item.name + '</td>' +
+                            '<td>' + item.contact + '</td>' +
+                            '<td>' + item.website + '</td>' +
+                            '<td>' + item.address + '</td>' +
+                            '<td>' + item.location + '</td>' +
+                            '<td>' + item.Gender + '</td>' +
+                            '</tr>';
+    
+                        tbody.append(row);
+                    });
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(errmsg);
+                }
+            });
+        });
+    </script>
+
+
+    <div id="data-container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Website</th>
+                    <th>Address</th>
+                    <th>Location</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be added dynamically here -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+</body>
+</html>
